@@ -23,7 +23,7 @@ jobs:
 
       - name: Create directory on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} "mkdir -p /home/ec2-user/tick-tack-app/front-end"
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} "mkdir -p /home/ec2-user/tick-tack-app/back-end"
 
       - name: List files for debugging
         run: |
