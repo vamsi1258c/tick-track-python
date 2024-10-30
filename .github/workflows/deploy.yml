@@ -32,4 +32,4 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          scp -o StrictHostKeyChecking=no -r * ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/tick-tack-app/front-end
+          scp -o StrictHostKeyChecking=no -r * ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/tick-tack-app/back-end
