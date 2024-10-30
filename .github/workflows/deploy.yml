@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: Deploy to EC2  # Optional: You can add a name for the workflow
 
 on:
   push:
@@ -18,8 +18,18 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          echo "StrictHostKeyChecking no" >> ~/.ssh/config
+          echo "Host *" >> ~/.ssh/config
+          echo "    StrictHostKeyChecking no" >> ~/.ssh/config
+
+      - name: Create directory on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} "mkdir -p /home/ec2-user/tick-tack-app/front-end"
+
+      - name: List files for debugging
+        run: |
+          pwd
+          ls -al
 
       - name: Deploy to EC2
         run: |
-          scp -o StrictHostKeyChecking=no -r . ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/tick-tack-app/front-end
+          scp -o StrictHostKeyChecking=no -r * ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/tick-tack-app/front-end
