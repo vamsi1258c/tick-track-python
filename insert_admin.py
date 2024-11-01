@@ -10,7 +10,7 @@ user_data = {
     "username": "admin",  # Admin username
     "password": "your_password",  # Replace with your desired password
     "role": "admin",  # Set user role
-    "fullname": "Admin User",  # Full name of the admin
+    "fullname": "vamsi",  # Full name of the admin
     "designation": "Administrator",  # Admin designation
     "approver": None  # If there's no approver, set to None
 }
