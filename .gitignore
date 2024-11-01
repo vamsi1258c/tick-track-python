@@ -1,0 +1,69 @@
+# Python general
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+env/
+venv/
+ENV/
+
+# Configuration and secrets
+instance/
+.env
+*.env
+
+# Flask specific
+*.sqlite3
+*.db
+
+# Logs and debug files
+*.log
+logs/
+debug.log
+
+# Pytest and other test artifacts
+.coverage
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+*.pytest_cache/
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Static and build directories
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+
+# Docker files
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Flask-Smorest generated files (e.g., if using OpenAPI specs)
+openapi.json
+openapi.yaml
+
+# Uploads folder
+uploads/
+
+# Any additional build or temp files
+*.bak
+*.orig
+tmp/
+temp/

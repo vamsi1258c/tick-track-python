@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_smorest import Api
@@ -26,6 +27,7 @@ def create_app(db_url=None):
     app.config[
         "OPENAPI_SWAGGER_UI_URL"
     ] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
+    db_url = os.getenv("DATABASE_URL")
     app.config["SQLALCHEMY_DATABASE_URI"] = db_url or "postgresql://postgres:vamsi@localhost:5432/admin"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["PROPAGATE_EXCEPTIONS"] = True
