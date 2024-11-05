@@ -22,8 +22,10 @@ blp = Blueprint("Users", "users", description="Operations on users")
 
 @blp.route("/register")
 class UserRegister(MethodView):
+    @jwt_required()
     @blp.arguments(UserSchema)
     def post(self, user_data):
+        """Add user."""
         if UserModel.query.filter(UserModel.username == user_data["username"]).first():
             abort(409, message="A user with that username already exists.")
 
@@ -45,6 +47,7 @@ class UserRegister(MethodView):
 class UserLogin(MethodView):
     @blp.arguments(LoginSchema)
     def post(self, user_data):
+        """Login user."""
         user = UserModel.query.filter(
             UserModel.username == user_data["username"]
         ).first()
@@ -64,6 +67,7 @@ class UserLogin(MethodView):
 class UserLogout(MethodView):
     @jwt_required()
     def post(self):
+        """Logout user."""
         jti = get_jwt()["jti"]
         BLOCKLIST.add(jti)
         return {"message": "Successfully logged out"}, 200
@@ -71,20 +75,16 @@ class UserLogout(MethodView):
 
 @blp.route("/user/<int:user_id>")
 class User(MethodView):
-    """
-    This resource can be useful when testing our Flask app.
-    We may not want to expose it to public users, but for the
-    sake of demonstration in this course, it can be useful
-    when we are manipulating data regarding the users.
-    """
     @jwt_required()
     @blp.response(200, UserSchema)
     def get(self, user_id):
+        """Fetch user."""
         user = UserModel.query.get_or_404(user_id)
         return user
 
     @jwt_required()
     def delete(self, user_id):
+        """Delete user."""
         user = UserModel.query.get_or_404(user_id)
         try:
             db.session.delete(user)
@@ -123,6 +123,7 @@ class User(MethodView):
 class TokenRefresh(MethodView):
     @jwt_required(refresh=True)
     def post(self):
+        """Refresh JWT Token."""
         current_user = get_jwt_identity()
         access_token_expires = timedelta(minutes=30)
         new_token = create_access_token(identity=current_user, fresh=False, expires_delta=access_token_expires)
