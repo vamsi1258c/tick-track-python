@@ -104,3 +104,26 @@ class TicketUpdateSchema(Schema):
 class LoginSchema(Schema):
     username = fields.Str(required=True)
     password = fields.Str(required=True, load_only=True)
+
+class ConfigMasterSchema(Schema):
+    id = fields.Int(dump_only=True)
+    type = fields.Str(required=True)  # e.g., 'status', 'category', 'subcategory', 'priority'
+    value = fields.Str(required=True)  # The actual value for this config item (e.g., 'open', 'high', 'service')
+    label = fields.Str(required=True)  # Label for UI (e.g., 'Open', 'High', 'Service')
+    color = fields.Str(allow_none=True)  # Hex code or predefined colors for UI badges (optional)
+    parent = fields.Str(allow_none=True)
+    created_at = fields.DateTime(dump_only=True)
+    updated_at = fields.DateTime(dump_only=True)
+
+class ConfigMasterUpdateSchema(Schema):
+    type = fields.Str()
+    value = fields.Str()
+    label = fields.Str()
+    color = fields.Str(allow_none=True)
+    parent = fields.Str(allow_none=True)
+
+class MailSchema(Schema):
+    subject = fields.Str(required=True, description="Subject of the email")
+    recipients = fields.List(fields.Email, required=True, description="List of recipient email addresses")
+    body = fields.Str(description="Body of the email")
+    sender = fields.Email(description="Sender email address (optional; defaults to the app's default sender)")

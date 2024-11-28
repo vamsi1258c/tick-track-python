@@ -1,16 +1,11 @@
-# ticket_api.py
-import os
-
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from flask_jwt_extended import jwt_required, get_jwt
 from sqlalchemy.exc import SQLAlchemyError
-from utils import send_email
 
 from db import db
 from models import TicketModel, UserModel
 from schemas import TicketSchema, TicketUpdateSchema
-from utils import convert_to_enum
 
 blp = Blueprint("Tickets", "tickets", description="Operations on tickets")
 
@@ -54,6 +49,8 @@ class Ticket(MethodView):
         ticket.assigned_to = ticket_data.get("assigned_to", ticket.assigned_to)
         ticket.approved_by = ticket_data.get("approved_by", ticket.approved_by)
 
+        print(ticket_data)
+
         db.session.commit()
         return ticket
 
@@ -87,18 +84,6 @@ class TicketList(MethodView):
             if approver:
                 recipients.append(approver.username)
 
-            # Send email notification
-            # send_email(
-            #     sender_email=os.getenv("SENDER_EMAIL"),  # Assuming creator is the sender
-            #     to_email=recipients,  # List of recipient emails
-            #     subject="New Ticket Created",
-            #     message_text=(
-            #         f"A new ticket# {ticket.id} - '{ticket.title}' has been created.\n\n"
-            #         f"Description: {ticket.description}\n"
-            #         f"Priority: {ticket.priority}\n"
-            #         f"Assigned to: {assignee.username if assignee else 'Not Assigned'}"
-            #     )
-            # )
         except SQLAlchemyError as err:
             abort(500, message="An error occurred while inserting the ticket.")
 

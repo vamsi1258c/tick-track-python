@@ -1,3 +1,6 @@
 FLASK_APP=app
 FLASK_DEBUG=True
-SENDER_EMAIL=vamsi.mallempalli1258@gmail.com
+
+MAIL_SERVER=13.60.4.6
+JWT_SECRET_KEY=e5938f2b537f4c78a9d88a9fbaede317aebed20bb81a3ccdd6363b3fd9a88ecf
+
