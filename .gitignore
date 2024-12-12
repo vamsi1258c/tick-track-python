@@ -69,4 +69,4 @@ tmp/
 temp/
 
 # Ignore migrations/versions folder
-migrations/versions/
+
