@@ -7,12 +7,12 @@ DATABASE_URL = os.getenv("DATABASE_URL")  # Make sure to set this environment va
 
 # User data for the admin
 user_data = {
-    "username": "admin123@gmail.com",  # Admin username
-    "password": "Admin@123",  # Replace with your desired password
-    "role": "admin@gmail.com",  # Set user role
+    "username": "admin124@gmail.com",  # Admin username
+    "password": "Admin@124",  # Replace with your desired password
+    "role": "admin",  # Set user role
     "fullname": "vamsi",  # Full name of the admin
     "designation": "Administrator",  # Admin designation
-    "approver": None  # If there's no approver, set to None
+    "approver": True  # If there's no approver, set to None
 }
 
 
