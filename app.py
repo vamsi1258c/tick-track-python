@@ -1,10 +1,11 @@
 import os
+import logging
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-from flask_mail import Mail, Message
+from flask_mail import Mail
 
 from db import db
 from blocklist import BLOCKLIST
@@ -21,9 +22,12 @@ from resources.email import blp as email_blueprint
 # Initialize extensions
 mail = Mail()
 
+
 def create_app(db_url=None):
     """Factory function to create the Flask app."""
     app = Flask(__name__)
+    # Configure logging
+    configure_logging(app)
 
     # API Configurations
     app.config["API_TITLE"] = "TickTrack REST API"
@@ -64,21 +68,6 @@ def create_app(db_url=None):
 
     # Register Blueprints
     register_blueprints(api)
-
-    # Test Mail Route
-    @app.route('/send-test-email')
-    def send_test_email():
-        """Test endpoint to send an email."""
-        try:
-            msg = Message(
-                subject="Test Email from TickTrack",
-                recipients=["recipient@example.com"],  # Replace with actual recipient
-                body="This is a test email sent from the TickTrack REST API."
-            )
-            mail.send(msg)
-            return jsonify({"message": "Test email sent successfully!"}), 200
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
 
     return app
 
@@ -149,3 +138,18 @@ def register_blueprints(api):
     api.register_blueprint(activity_log_blueprint)
     api.register_blueprint(config_master_blueprint)
     api.register_blueprint(email_blueprint)
+
+
+def configure_logging(app):
+    """Configure application-wide logging."""
+    # Set the basic configuration for logging
+    logging.basicConfig(
+        level=logging.DEBUG,  # change to INFO, WARNING, or ERROR
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[
+            logging.FileHandler("app.log"),
+            logging.StreamHandler()
+        ]
+    )
+    app.logger.setLevel(logging.DEBUG)
+    app.logger.info("Logging is configured.")
